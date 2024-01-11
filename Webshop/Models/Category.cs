@@ -1,5 +1,4 @@
-﻿using Microsoft.CodeAnalysis;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 namespace Webshop.Models
 {
@@ -14,6 +13,5 @@ namespace Webshop.Models
 
         [ForeignKey("CategoryID")]
         public virtual ICollection<ProductCategory> ProductCategories { get; set; }
-
     }
 }
