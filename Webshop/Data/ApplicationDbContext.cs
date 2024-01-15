@@ -33,11 +33,20 @@ namespace Webshop.Data
         public virtual ICollection<Order> Orders { get; set; }
 
     }
-    public class ApplicationDbContext : IdentityDbContext
+
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
         }
+
+        public DbSet<Order> Order { get; set; }
+        public DbSet<Product> Product { get; set; }
+        public DbSet<ProductImage> ProductImage { get; set; }
+        public DbSet<Category> Category { get; set; }
+        public DbSet<ProductCategory> ProductCategory { get; set; }
+        public DbSet<OrderItem> OrderItem { get; set; }
+
     }
 }
