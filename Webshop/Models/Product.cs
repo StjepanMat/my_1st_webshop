@@ -13,6 +13,8 @@ namespace Webshop.Models
         public string Title { get; set; }
 
         public string Description { get; set; }
+
+        public bool Active { get; set; } = true;
         
         [Required]
         public int Quantity { get; set; }
