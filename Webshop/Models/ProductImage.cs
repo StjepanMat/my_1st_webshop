@@ -16,6 +16,7 @@ namespace Webshop.Models
         public string Title { get; set; }
 
         [StringLength(500)]
+        [DataType(DataType.ImageUrl)]
         public string FileName { get; set; }
 
         [NotMapped]
