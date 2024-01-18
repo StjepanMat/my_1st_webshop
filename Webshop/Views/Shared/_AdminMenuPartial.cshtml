@@ -9,11 +9,11 @@
         <a class="nav-link dropdown-toggle text-dark" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Admin</a>
         <div class="dropdown-menu" style="">
 
-            <a class="dropdown-item" asp-area="Admin" asp-controller="Category" asp-action="Index">Categories</a>
-            <a class="dropdown-item" asp-area="Admin" asp-controller="Product" asp-action="Index">Products</a>
+            <a class="dropdown-item" asp-controller="AdminCategory" asp-action="Index">Categories</a>
+            <a class="dropdown-item" asp-controller="AdminProduct" asp-action="Index">Products</a>
 
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" asp-area="Admin" asp-controller="Order" asp-action="Orders">Orders</a>
+            <a class="dropdown-item" asp-controller="AdminOrder" asp-action="Orders">Orders</a>
         </div>
     </li>
 }

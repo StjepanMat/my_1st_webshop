@@ -21,6 +21,7 @@ namespace Webshop.Models
 
         [Required]
         [Column(TypeName = "decimal(9,2)")]
+        [DataType(DataType.Currency)]
         public decimal Price { get; set; }
 
         [ForeignKey("ProductId")]
