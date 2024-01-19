@@ -150,6 +150,7 @@ namespace Webshop.Controllers
             var product = await _context.Product.FindAsync(id);
             if (product != null)
             {
+                _context.ProductImage.RemoveRange(_context.ProductImage.Where(pc => pc.ProductId == product.Id));
                 _context.Product.Remove(product);
             }
 
