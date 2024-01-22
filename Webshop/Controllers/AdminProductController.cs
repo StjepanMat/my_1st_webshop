@@ -24,7 +24,15 @@ namespace Webshop.Controllers
         // GET: AdminProduct
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Product.ToListAsync());
+            if (_context.Product == null)
+                return Problem("Entity set 'ApplicationDbContext.Product'  is null.");
+            var products = await _context.Product.ToListAsync();
+            foreach (var product in products)
+            {
+                product.ProductImages = _context.ProductImage.Where(pi => pi.ProductId == product.Id).ToList();
+            }
+            return View(products);
+
         }
 
         // GET: AdminProduct/Details/5
@@ -41,7 +49,7 @@ namespace Webshop.Controllers
             {
                 return NotFound();
             }
-
+            product.ProductImages = _context.ProductImage.Where(pi => pi.ProductId == product.Id).ToList();
             return View(product);
         }
 
@@ -83,6 +91,7 @@ namespace Webshop.Controllers
             {
                 return NotFound();
             }
+            product.ProductImages = _context.ProductImage.Where(pi => pi.ProductId == product.Id).ToList();
             return View(product);
         }
 

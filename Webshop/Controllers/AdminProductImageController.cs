@@ -175,7 +175,7 @@ namespace Webshop.Controllers
             }
 
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(Index), new {id=productImage.ProductId});
         }
 
         private bool ProductImageExists(int id)
