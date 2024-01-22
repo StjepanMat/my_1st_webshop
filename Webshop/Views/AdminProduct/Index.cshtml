@@ -47,7 +47,7 @@
                             var image = item.ProductImages.FirstOrDefault(x => x.IsMainImage == true);
                             if (image != null)
                             {
-                                <img src="image.FileName" alt="@item.Title" height="100" />
+                                <img src="@image.FileName" alt="@item.Title" height="100" />
                             }
                         }
                         catch

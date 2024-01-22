@@ -25,6 +25,7 @@ namespace Webshop.Controllers
         public async Task<IActionResult> Index(int? id)
         {
             if(id == null) return RedirectToAction("Index", "AdminProduct");
+            ViewBag.ProductId = id;
             return View(await _context.ProductImage.ToListAsync());
         }
 
@@ -47,9 +48,11 @@ namespace Webshop.Controllers
         }
 
         // GET: AdminProductImage/Create
-        public IActionResult Create()
+        public IActionResult Create(int? id)
         {
-            return View();
+            if (id == null) return RedirectToAction("index", "AdminProduct");
+            if (_context.Product.Count(p => p.Id == id) == 0) return RedirectToAction("index", "AdminProduct");
+            return View(new ProductImage() {ProductId=(int)id });
         }
 
         // POST: AdminProductImage/Create
@@ -59,11 +62,30 @@ namespace Webshop.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,ProductId,IsMainImage,Title,FileName")] ProductImage productImage)
         {
+            ModelState.Remove("ProductTitle");
+            if (HttpContext.Request.Form.Files.Count > 0) ModelState.Remove("FileName");
             if (ModelState.IsValid)
             {
+                var imageFile = HttpContext.Request.Form.Files.FirstOrDefault();
+                var uploadPath = System.IO.Path.Combine("wwwroot", "images", "products", productImage.ProductId.ToString());
+                if (!System.IO.Directory.Exists(uploadPath))
+                {
+                    System.IO.Directory.CreateDirectory(uploadPath);
+                }
+                if (imageFile != null)
+                {
+                    var fileName = System.IO.Path.Combine(uploadPath, imageFile.FileName);
+                    using (var fileStream = new System.IO.FileStream(fileName, System.IO.FileMode.Create))
+                    {
+                        await imageFile.CopyToAsync(fileStream);
+                    }
+                    fileName=fileName.Replace("wwwroot\\", "/").Replace("\\","/");
+                    productImage.FileName = fileName;
+                }
+                productImage.Id = 0;
                 _context.Add(productImage);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index),productImage.ProductId);
             }
             return View(productImage);
         }

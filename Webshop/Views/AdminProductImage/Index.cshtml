@@ -7,7 +7,7 @@
 <h1>Index</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create" asp-route-id="@ViewBag.ProductId">Create New</a>
 </p>
 <table class="table">
     <thead>
@@ -34,7 +34,8 @@
                 @Html.DisplayFor(modelItem => item.Title)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.FileName)
+                <img src="@item.FileName" alt="@item.Title" height="100" />
+               @*  @Html.DisplayFor(modelItem => item.FileName) *@
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
