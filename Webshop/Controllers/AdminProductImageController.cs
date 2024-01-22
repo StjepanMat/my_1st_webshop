@@ -85,7 +85,7 @@ namespace Webshop.Controllers
                 productImage.Id = 0;
                 _context.Add(productImage);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index),productImage.ProductId);
+                return RedirectToAction(nameof(Index), new { id = productImage.ProductId });
             }
             return View(productImage);
         }
@@ -93,6 +93,7 @@ namespace Webshop.Controllers
         // GET: AdminProductImage/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            return RedirectToAction("Index", "AdminProduct");
             if (id == null)
             {
                 return NotFound();
@@ -113,6 +114,7 @@ namespace Webshop.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,ProductId,IsMainImage,Title,FileName")] ProductImage productImage)
         {
+            return RedirectToAction("Index", "AdminProduct");
             if (id != productImage.Id)
             {
                 return NotFound();
@@ -167,6 +169,8 @@ namespace Webshop.Controllers
             var productImage = await _context.ProductImage.FindAsync(id);
             if (productImage != null)
             {
+                var fileName = "wwwroot" + productImage.FileName.Replace("/", "\\");
+                System.IO.File.Delete(fileName);
                 _context.ProductImage.Remove(productImage);
             }
 
