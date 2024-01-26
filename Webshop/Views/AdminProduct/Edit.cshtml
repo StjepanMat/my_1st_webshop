@@ -39,7 +39,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="Description" class="control-label"></label>
-                <input asp-for="Description" class="form-control" />
+                <textarea asp-for="Description" class="form-control"></textarea>
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
             <div class="form-group form-check">
@@ -62,7 +62,24 @@
             </div>
         </form>
     </div>
+    <div class="col-md-4">
+        <form asp-action="editcategory">
+            <input type="hidden" asp-for="Id" />
+            <label>Categories</label>
+            @foreach (Category cat in ViewBag.Categories)
+            {
+                <div class="form-group">
+                    @Html.CheckBox(cat.Title, Model.ProductCategories.Count(x=>x.CategoryId==cat.Id)>0)
+                    @Html.Label(cat.Title)
+                </div>
+            }
+            <div class="form-group">
+                <input type="submit" value="Save categories" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
 </div>
+    
 
 <div>
     <a asp-action="Index">Back to List</a>

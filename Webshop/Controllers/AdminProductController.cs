@@ -92,6 +92,8 @@ namespace Webshop.Controllers
                 return NotFound();
             }
             product.ProductImages = _context.ProductImage.Where(pi => pi.ProductId == product.Id).ToList();
+            product.ProductCategories = _context.ProductCategory.Where(pc => pc.ProductId == product.Id).ToList();
+            ViewBag.Categories = _context.Category.ToList();
             return View(product);
         }
 
