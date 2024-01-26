@@ -26,7 +26,7 @@ namespace Webshop.Controllers
         {
             if(id == null) return RedirectToAction("Index", "AdminProduct");
             ViewBag.ProductId = id;
-            return View(await _context.ProductImage.ToListAsync());
+            return View(await _context.ProductImage.Where(x=>x.ProductId==id).ToListAsync());
         }
 
         // GET: AdminProductImage/Details/5
