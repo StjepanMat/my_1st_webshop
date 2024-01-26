@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
 using Webshop.Data;
 using Webshop.Models;
@@ -133,6 +134,32 @@ namespace Webshop.Controllers
                 return RedirectToAction(nameof(Index));
             }
             return View(product);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditCategory(int id)
+        {
+            List<Category> categories = _context.Category.ToList();
+            foreach(var cat in categories)
+            {
+                var checkbox = Request.Form[cat.Title];
+                if (checkbox.Contains("true"))
+                {
+                    if(_context.ProductCategory.FirstOrDefault(x => x.CategoryId == cat.Id && x.ProductId == id) == null)
+                    {
+                        _context.ProductCategory.Add(new ProductCategory() { CategoryId = cat.Id, ProductId=id});
+                    }
+                }
+                else
+                {
+                    if (_context.ProductCategory.FirstOrDefault(x => x.CategoryId == cat.Id && x.ProductId == id) != null)
+                    {
+                        _context.ProductCategory.Remove(_context.ProductCategory.FirstOrDefault(x => x.CategoryId == cat.Id && x.ProductId == id));
+                    }
+                }
+            }
+            _context.SaveChanges();
+            return RedirectToAction(nameof(Edit), new { id });
         }
 
         // GET: AdminProduct/Delete/5
