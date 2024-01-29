@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using Webshop.Data;
 using Webshop.Models;
 
 namespace Webshop.Controllers
@@ -8,9 +9,12 @@ namespace Webshop.Controllers
     {
         private readonly ILogger<HomeController> _logger;
 
-        public HomeController(ILogger<HomeController> logger)
+        private readonly ApplicationDbContext _context;
+
+        public HomeController(ILogger<HomeController> logger, ApplicationDbContext context)
         {
             _logger = logger;
+            _context = context;
         }
 
         public IActionResult Index()
@@ -21,6 +25,19 @@ namespace Webshop.Controllers
         public IActionResult Privacy()
         {
             return View();
+        }
+
+        public IActionResult Product(int? categoryId)
+        {
+            List<Product> products = _context.Product.ToList();
+
+            if (categoryId != null)
+            {
+                //TODO: Filter products by category
+            }
+
+            ViewBag.Categories = _context.Category.ToList();
+            return View(products);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

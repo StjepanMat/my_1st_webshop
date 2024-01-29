@@ -1,0 +1,55 @@
+﻿@model List<Webshop.Models.Product>
+
+@{
+    ViewData["Title"] = "Products";
+}
+
+<h2>Product list</h2>
+
+<div class="row mb-5">
+    <div class="col-2">
+        <div class=" accept-policy "dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+                data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Filter by category
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                @foreach (var item in ViewBag.Categories)
+                {
+                    <a class="dropdown-item" asp-action="Product" asp-route-categoryId="@item.Id">@item.Title</a>
+                }
+            </div>
+        </div>
+    </div>
+    <div class="col-2">
+        <a asp-action="Product" class="btn-warning">Clear filter</a>
+    </div>
+</div>
+
+
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Active)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Quantity)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Price)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+
