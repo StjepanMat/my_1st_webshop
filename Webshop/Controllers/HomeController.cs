@@ -36,6 +36,12 @@ namespace Webshop.Controllers
                 //TODO: Filter products by category
             }
 
+            foreach (var product in products)
+            {
+                product.ProductImages = _context.ProductImage.Where(pi => pi.ProductId == product.Id).ToList();
+                product.ProductCategories = _context.ProductCategory.Where(pc => pc.ProductId == product.Id).ToList();
+            }
+
             ViewBag.Categories = _context.Category.ToList();
             return View(products);
         }

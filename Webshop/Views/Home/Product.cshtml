@@ -22,34 +22,55 @@
         </div>
     </div>
     <div class="col-2">
-        <a asp-action="Product" class="btn-warning">Clear filter</a>
+        <a asp-action="Product" class="btn btn-warning">Clear filter</a>
     </div>
 </div>
 
-
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Title)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Active)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Quantity)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Price)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-
+<div class="row mt-3">
+    @foreach (var item in Model) {
+        <div class="col-sm-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">@item.Title</h5>
+                    <p class="card-text">@item.Description</p>
+                    @{
+                        try
+                        {
+                            var image = item.ProductImages.FirstOrDefault(x => x.IsMainImage == true);
+                            if (image != null)
+                            {
+                                <img class="card-img" src="@image.FileName" alt="@item.Title" />
+                            }
+                            else
+                            {
+                                <img class="card-img" src="~/images/noimage.png" alt="@item.Title"  />
+                            }
+                        }
+                        catch
+                        {
+                            <img class="card-img" src="~/images/noimage.png" alt="@item.Title"  />
+                        }
+                    }
+                    <table class="table table-condensed table-hover">
+                        <thead>
+                            <tr>
+                                <th> Price</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td> @item.Price €</td>
+                                <td>
+                                    <form>
+                                        <input type="submit" class="btn btn-success btn-sm" value="Add to cart" />
+                                    </form>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>  
+            </div>
+        </div>
+    }
+</div>
