@@ -31,15 +31,15 @@ namespace Webshop.Controllers
         {
             List<Product> products = _context.Product.ToList();
 
-            if (categoryId != null)
-            {
-                //TODO: Filter products by category
-            }
-
             foreach (var product in products)
             {
                 product.ProductImages = _context.ProductImage.Where(pi => pi.ProductId == product.Id).ToList();
                 product.ProductCategories = _context.ProductCategory.Where(pc => pc.ProductId == product.Id).ToList();
+            }
+
+            if (categoryId != null)
+            {
+                products = products.Where(p => p.ProductCategories.Any(p => p.CategoryId == categoryId)).ToList();
             }
 
             ViewBag.Categories = _context.Category.ToList();
